@@ -86,22 +86,58 @@ var finances = [
   ['Jan-2017', 138230],
   ['Feb-2017', 671099],
 ];
-//The total number of months included in the dataset
-console.log("Total Months:"    +   finances.length)
-//The net total amount of Profit/Losses over the entire period.
-var sumfinances = 0
+
+console.log("Financial Analysis"); // This prints the title of the data analysed
+console.log("----------------------"); // This is to seperate the title from the main data
+
+
+//The total number of months included in the dataset; the 'length' property is added to the array to give you the number of array in the array which equates the number of months 
+console.log("Total Number of Months:"    +   finances.length) 
+
+
+//The net total amount of Profit/Losses over the entire period. 
+var sumfinances = 0; //make a variable to house the sum value.
+
+//create a for-loop to allow for continous run of your code.
   for(var a = 0; a<finances.length; a++)
   sumfinances += finances[a][1]
 
-  console.log('Total = ' + sumfinances)
+  console.log('Net total amount of profit/loss  = ' + sumfinances) // This prints the result on the Console.
 
-  //The average of the changes in Profit/Losses over the entire period.
 
-//You will need to track what the total change in Profit/Losses are from month to month and then find the average.
-//(Total/(Number of months - 1))
+//To calculate the average of the changes in Profit/Losses over the entire period. Create variables to house the values.
 
-var changefinances = 0
-for(var a = 0; a<finances.length; a++)
-changefinances -= finances[a][1]
+var PLmonthlychange = 0;//this holds the values of monthly profit/losses changes.
+var TotalPLchanges = 0; // this holds the sum of monthly profit/losses changes.
+var Financechange = [] // An array of the monthly profit/losses changes.
 
-console.log(changefinances/(finances.lenght - 1))
+
+for(var a = 1; a<finances.length; a++)
+{PLmonthlychange = finances[a][1] - finances [a-1][1]
+  Financechange.push(PLmonthlychange);
+  TotalPLchanges += PLmonthlychange
+}
+console.log("The Average change in profit/loss over period = " + (TotalPLchanges/(finances.length-1)).toFixed(2)); // to print result to console.
+
+//The greatest increase in profits and greatest decrease in losses (date and amount) over the entire period.
+var maxProfit = 0; // Holds the value of the greatest increase in profits.
+var maxProfitdate; // Holds the date of the greatest increase in profits.
+var maxlosses = 0; // holds the value of the greatest decrease in losses.
+var maxlossesdate; // holds the date of the greatest decrease in losses.
+
+for(var a = 0; a < Financechange.length; a++){ 
+  TotalPLchanges += Financechange[a];
+if (Financechange[a] > maxProfit){
+  maxProfit = Financechange[a]
+  maxProfitdate = finances[a+1][0]
+}
+
+if (Financechange[a] < maxlosses){
+  maxlosses = Financechange[a]
+  maxlossesdate = finances[a+1][0]
+}
+}
+//to print results to console.
+console.log ("Greatest Increase in Profit/Losses : " + maxProfitdate, "($" + maxProfit + ")") 
+console.log ("Greatest Decrease in Profit/Losses : " + maxlossesdate, "($" + maxlosses + ")") 
+
